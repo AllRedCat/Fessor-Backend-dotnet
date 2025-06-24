@@ -29,6 +29,11 @@ namespace FessorApi.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<User>> CreateUser(User user)
         {
+            user.Password = PasswordHasher.HashPassword(user.Password);
+            
+            user.CreatedAt = DateTime.UtcNow;
+            user.UpdatedAt = DateTime.UtcNow;
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
@@ -38,7 +43,24 @@ namespace FessorApi.Controllers
         public async Task<IActionResult> UpdateUser(int id, User user)
         {
             if (id != user.Id) return BadRequest();
-            _context.Entry(user).State = EntityState.Modified;
+
+            var existingUser = await _context.Users.FindAsync(id);
+            if (existingUser == null) return NotFound();
+
+            existingUser.Name = user.Name;
+            existingUser.Document = user.Document;
+            existingUser.Email = user.Email;
+            
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                existingUser.Password = PasswordHasher.HashPassword(user.Password);
+            }
+            
+            existingUser.Role = user.Role;
+            existingUser.ProfilePicture = user.ProfilePicture;
+            existingUser.SchoolId = user.SchoolId;
+            existingUser.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -48,6 +70,7 @@ namespace FessorApi.Controllers
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
+            
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return NoContent();

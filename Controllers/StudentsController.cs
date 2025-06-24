@@ -28,6 +28,9 @@ namespace FessorApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> CreateStudent(Student student)
         {
+            student.CreatedAt = DateTime.UtcNow;
+            student.UpdatedAt = DateTime.UtcNow;
+
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetStudent), new { id = student.Id }, student);
@@ -37,7 +40,16 @@ namespace FessorApi.Controllers
         public async Task<IActionResult> UpdateStudent(int id, Student student)
         {
             if (id != student.Id) return BadRequest();
-            _context.Entry(student).State = EntityState.Modified;
+
+            var existingStudent = await _context.Students.FindAsync(id);
+            if (existingStudent == null) return NotFound();
+
+            existingStudent.Name = student.Name;
+            existingStudent.Document = student.Document;
+            existingStudent.Email = student.Email;
+            existingStudent.SchoolId = student.SchoolId;
+            existingStudent.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -47,6 +59,7 @@ namespace FessorApi.Controllers
         {
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
+            
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return NoContent();

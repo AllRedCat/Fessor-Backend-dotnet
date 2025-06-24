@@ -41,7 +41,8 @@ namespace FessorApi.Data
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Reports)
                 .WithOne(r => r.User)
-                .HasForeignKey(r => r.UserId);
+                .HasForeignKey(r => r.UserId)
+                .IsRequired(true);
         }
     }
 } 

@@ -8,7 +8,7 @@ namespace FessorApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [AllowAnonymous]
     public class DemosController : ControllerBase
     {
         private readonly AppDbContext _context;

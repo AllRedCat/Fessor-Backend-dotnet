@@ -34,6 +34,13 @@ FessorApi/
 
 ### User (Usuário)
 ```csharp
+public enum UserRole
+{
+    Admin,
+    User,
+    Demo
+}
+
 public class User
 {
     public int Id { get; set; }
@@ -41,7 +48,7 @@ public class User
     public string Document { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public string Role { get; set; }
+    public UserRole Role { get; set; }  // Enum com 3 opções: Admin, User, Demo
     public string ProfilePicture { get; set; }
     public int? SchoolId { get; set; }
     public School? School { get; set; }
@@ -122,7 +129,8 @@ public class Demo
 - **School → Users**: Uma escola pode ter múltiplos usuários (1:N) - opcional
 - **School → Reports**: Uma escola pode ter múltiplos relatórios (1:N)
 - **Student → Reports**: Um estudante pode ter múltiplos relatórios (1:N)
-- **User → Reports**: Um usuário pode criar múltiplos relatórios (1:N)
+- **User → Reports**: Um usuário pode criar múltiplos relatórios (1:N) - **opcional** (User pode existir sem Reports)
+- **Report → User**: Um relatório deve ter exatamente um usuário criador (N:1) - **obrigatório**
 
 ## 🔐 Autenticação e Autorização
 
@@ -131,6 +139,20 @@ public class Demo
 - Endpoints de login/logout em `/auth`
 - Autenticação baseada em email e senha
 - Claims personalizadas para ID do usuário e role
+
+### Sistema de Autorização por Roles
+O sistema suporta 3 tipos de usuários:
+
+- **Admin**: Acesso total ao sistema
+- **User**: Acesso limitado a funcionalidades básicas
+- **Demo**: Acesso apenas para demonstração
+
+#### Exemplos de uso:
+```csharp
+[Authorize(Roles = "Admin")]           // Apenas administradores
+[Authorize(Roles = "User,Demo")]       // Usuários e demos
+[Authorize]                            // Qualquer usuário autenticado
+```
 
 ### Endpoints de Autenticação
 
@@ -145,6 +167,57 @@ public class Demo
 #### POST /auth/logout
 - Remove o cookie de autenticação
 
+#### POST /auth/change-password
+- Altera a senha do usuário logado
+- Requer autenticação
+- Verifica a senha atual antes de permitir a alteração
+
+**Request:**
+```json
+{
+    "currentPassword": "senhaAtual123",
+    "newPassword": "novaSenha456"
+}
+```
+
+#### GET /api/me
+- Retorna as informações do usuário logado
+- Requer autenticação
+- Retorna dados do usuário sem a senha por segurança
+
+**Resposta:**
+```json
+{
+    "id": 1,
+    "name": "João Silva",
+    "document": "123.456.789-00",
+    "email": "joao@exemplo.com",
+    "role": "Admin",
+    "profilePicture": "profile.jpg",
+    "schoolId": 1,
+    "school": {
+        "id": 1,
+        "name": "Escola Municipal",
+        "address": "Rua das Flores, 123",
+        "city": "São Paulo",
+        "state": "SP",
+        "zipCode": "01234-567",
+        "principal": "Maria Santos",
+        "phone": "(11) 1234-5678",
+        "email": "escola@exemplo.com",
+        "createdAt": "2024-01-01T00:00:00",
+        "updatedAt": "2024-01-01T00:00:00"
+    },
+    "createdAt": "2024-01-01T00:00:00",
+    "updatedAt": "2024-01-01T00:00:00"
+}
+```
+
+**Valores possíveis para `role`:**
+- `"Admin"` - Administrador com acesso total
+- `"User"` - Usuário com acesso limitado
+- `"Demo"` - Usuário de demonstração
+
 ## 📡 Endpoints da API
 
 ### Usuários (`/api/users`)
@@ -153,6 +226,24 @@ public class Demo
 - `POST /api/users` - Cria novo usuário (sem autenticação)
 - `PUT /api/users/{id}` - Atualiza usuário
 - `DELETE /api/users/{id}` - Remove usuário
+
+#### Exemplo de criação de usuário:
+```json
+{
+    "name": "João Silva",
+    "document": "123.456.789-00",
+    "email": "joao@exemplo.com",
+    "password": "senha123",
+    "role": "Admin",
+    "profilePicture": "profile.jpg",
+    "schoolId": 1
+}
+```
+
+**Valores possíveis para `role`:**
+- `"Admin"` - Administrador com acesso total
+- `"User"` - Usuário com acesso limitado  
+- `"Demo"` - Usuário de demonstração
 
 ### Escolas (`/api/schools`)
 - `GET /api/schools` - Lista todas as escolas
@@ -169,11 +260,21 @@ public class Demo
 - `DELETE /api/students/{id}` - Remove estudante
 
 ### Relatórios (`/api/reports`)
-- `GET /api/reports` - Lista todos os relatórios
-- `GET /api/reports/{id}` - Obtém relatório por ID
-- `POST /api/reports` - Cria novo relatório
+- `GET /api/reports` - Lista todos os relatórios (inclui User, Student e School)
+- `GET /api/reports/{id}` - Obtém relatório por ID (inclui User, Student e School)
+- `POST /api/reports` - Cria novo relatório (User obrigatório)
 - `PUT /api/reports/{id}` - Atualiza relatório
 - `DELETE /api/reports/{id}` - Remove relatório
+
+#### Exemplo de criação de relatório:
+```json
+{
+    "studentId": 1,
+    "userId": 1,
+    "schoolId": 1,
+    "content": "Relatório sobre o desempenho do estudante"
+}
+```
 
 ### Demonstrações (`/api/demos`)
 - `GET /api/demos` - Lista todas as demonstrações
@@ -181,6 +282,18 @@ public class Demo
 - `POST /api/demos` - Cria nova demonstração
 - `PUT /api/demos/{id}` - Atualiza demonstração
 - `DELETE /api/demos/{id}` - Remove demonstração
+
+## 🔐 Segurança
+
+### Criptografia de Senhas
+- **Hash SHA256**: Todas as senhas são criptografadas usando SHA256
+- **Verificação segura**: Senhas são verificadas usando hash, nunca comparadas em texto plano
+- **Alteração de senha**: Endpoint seguro para alterar senha verificando a senha atual
+
+### Endpoints de Segurança
+- `POST /auth/change-password` - Alterar senha de forma segura
+- Validação de senha atual antes de permitir alteração
+- Hash automático de novas senhas
 
 ## ⚙️ Configuração
 
@@ -249,7 +362,7 @@ public class Demo
 - `Microsoft.AspNetCore.OpenApi` (8.0.16)
 - `Microsoft.EntityFrameworkCore.Design` (8.0.13)
 - `Pomelo.EntityFrameworkCore.MySql` (8.0.3)
-- `Swashbuckle.AspNetCore` (6.6.2)
+- `NSwag.AspNetCore` (14.0.3)
 
 ## 🔧 Desenvolvimento
 
@@ -270,12 +383,19 @@ Todos os controllers seguem o padrão REST com operações CRUD:
 O projeto inclui migrações para:
 - Criação inicial das tabelas
 - Tornar SchoolId opcional para usuários
+- Atualização do campo Role para enum
+- Atualização da relação User-Report
 
 ## 📝 Notas de Segurança
 
-⚠️ **Atenção**: Esta é uma implementação básica. Para produção, considere:
+✅ **Implementado**:
+- Hash SHA256 para senhas
+- Verificação segura de senhas
+- Endpoint seguro para alteração de senha
+- Timestamps automáticos
 
-- Implementar hash de senhas (bcrypt, Argon2)
+⚠️ **Para produção, considere**:
+- Implementar hash mais robusto (bcrypt, Argon2)
 - Adicionar validação de entrada
 - Implementar rate limiting
 - Configurar HTTPS adequadamente
