@@ -1,0 +1,6 @@
+@FessorApi_HostAddress = http://192.168.15.10:5005
+
+GET {{FessorApi_HostAddress}}/api/Users
+Accept: application/json
+
+###
