@@ -18,24 +18,24 @@ namespace FessorApi.Controllers
 
         public class LoginDto
         {
-            public string Email { get; set; }
-            public string Password { get; set; }
+            public string Email { get; set; } = null!;
+            public string Password { get; set; } = null!;
         }
 
         public class ChangePasswordDto
         {
-            public string CurrentPassword { get; set; }
-            public string NewPassword { get; set; }
+            public string CurrentPassword { get; set; } = null!;
+            public string NewPassword { get; set; } = null!;
         }
 
         public class UserProfileDto
         {
             public int Id { get; set; }
-            public string Name { get; set; }
-            public string Document { get; set; }
-            public string Email { get; set; }
+            public string Name { get; set; } = null!;
+            public string Document { get; set; } = null!;
+            public string Email { get; set; } = null!;
             public UserRole Role { get; set; }
-            public string ProfilePicture { get; set; }
+            public string? ProfilePicture { get; set; }
             public int? SchoolId { get; set; }
             public School? School { get; set; }
             public DateTime CreatedAt { get; set; }
@@ -137,14 +137,14 @@ namespace FessorApi.Controllers
 
         [HttpGet("/api/me/admin-only")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<string>> AdminOnlyEndpoint()
+        public ActionResult<string> AdminOnlyEndpoint()
         {
             return Ok("Este endpoint só pode ser acessado por administradores!");
         }
 
         [HttpGet("/api/me/user-demo")]
         [Authorize(Roles = "User,Demo")]
-        public async Task<ActionResult<string>> UserAndDemoEndpoint()
+        public ActionResult<string> UserAndDemoEndpoint()
         {
             return Ok("Este endpoint pode ser acessado por usuários e demos!");
         }

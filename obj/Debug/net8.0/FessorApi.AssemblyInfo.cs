@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FessorApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0748549aec25546c313d9e763c5c5cf6b486254")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+74a98c653b48723e5012f981cdc0a5296210e852")]
 [assembly: System.Reflection.AssemblyProductAttribute("FessorApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FessorApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
