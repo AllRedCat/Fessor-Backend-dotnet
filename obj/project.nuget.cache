@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GOjPtXi2cj1h+4WJdy6oPNYgtjazKarXZP0t3qPnr2w4t/2cRCGjmOzqnDBC6skjyyuzvOUioNozjXnUW32Stg==",
+  "dgSpecHash": "AZPmG+anKcSJZBhAQAnXGdiBSHrPFdrtStXCRa9oWD6MqOhHBDIZ6nluwaKOJbyYofGwwoZR6M1ZKfrqyRlRvg==",
   "success": true,
-  "projectFilePath": "/home/gabriel/Documentos/projetos/dotnet/FessorApi/FessorApi.csproj",
+  "projectFilePath": "/home/gabriel/Documentos/projetos/fessor/FessorApi/FessorApi.csproj",
   "expectedPackageFiles": [
     "/home/gabriel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/gabriel/.nuget/packages/microsoft.aspnetcore.authentication/2.3.0/microsoft.aspnetcore.authentication.2.3.0.nupkg.sha512",

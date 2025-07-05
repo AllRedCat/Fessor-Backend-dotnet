@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/gabriel/Documentos/projetos/dotnet/FessorApi/FessorApi.csproj": {}
+    "/home/gabriel/Documentos/projetos/fessor/FessorApi/FessorApi.csproj": {}
   },
   "projects": {
-    "/home/gabriel/Documentos/projetos/dotnet/FessorApi/FessorApi.csproj": {
+    "/home/gabriel/Documentos/projetos/fessor/FessorApi/FessorApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/gabriel/Documentos/projetos/dotnet/FessorApi/FessorApi.csproj",
+        "projectUniqueName": "/home/gabriel/Documentos/projetos/fessor/FessorApi/FessorApi.csproj",
         "projectName": "FessorApi",
-        "projectPath": "/home/gabriel/Documentos/projetos/dotnet/FessorApi/FessorApi.csproj",
+        "projectPath": "/home/gabriel/Documentos/projetos/fessor/FessorApi/FessorApi.csproj",
         "packagesPath": "/home/gabriel/.nuget/packages/",
-        "outputPath": "/home/gabriel/Documentos/projetos/dotnet/FessorApi/obj/",
+        "outputPath": "/home/gabriel/Documentos/projetos/fessor/FessorApi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/gabriel/.nuget/NuGet/NuGet.Config"

@@ -9,11 +9,23 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = FessorApi
 build_property.RootNamespace = FessorApi
-build_property.ProjectDir = /home/gabriel/Documentos/projetos/dotnet/FessorApi/
+build_property.ProjectDir = /home/gabriel/Documentos/projetos/fessor/FessorApi/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /home/gabriel/Documentos/projetos/dotnet/FessorApi
+build_property.MSBuildProjectDirectory = /home/gabriel/Documentos/projetos/fessor/FessorApi
 build_property._RazorSourceGeneratorDebug = 
+
+[/home/gabriel/Documentos/projetos/fessor/FessorApi/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/gabriel/Documentos/projetos/fessor/FessorApi/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/gabriel/Documentos/projetos/fessor/FessorApi/Pages/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
