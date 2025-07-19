@@ -17,4 +17,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\Register.cshtml" />
+  </ItemGroup>
+
 </Project>
